@@ -15,12 +15,12 @@ my $tn = Tree::Navigator->new;
 # $tn->mount(msword => 'Perl::Ref' => {mount_point => {ref => $excel}});
 
 
-# $tn->mount(HKCU => 'Win32::Registry' => {mount_point => {key => 'HKCU'}});
+$tn->mount(HKCU => 'Win32::Registry' => {mount_point => {key => 'HKCU'}});
 
-# use DBI;
-# my $dbfile = "D:/Temp/jetons.sqlite";
-# my $dbh = DBI->connect("dbi:SQLite:dbname=$dbfile","","");
-# $tn->mount(Jetons  => 'DBI' => {mount_point => {dbh => $dbh}});
+use DBI;
+my $dbfile = "D:/devarea/sqlite/jetons.sqlite";
+my $dbh = DBI->connect("dbi:SQLite:dbname=$dbfile","","");
+$tn->mount(Jetons  => 'DBI' => {mount_point => {dbh => $dbh}});
 
 $tn->mount(TN  => 'Perl::Ref' => {mount_point => {ref => $tn}});
 
@@ -42,7 +42,7 @@ $tn->mount(dami => Filesys
                 => {attributes => {label => 'Privé'},
                     mount_point => {root  => 'D:/dami'}});
 
-# $tn->mount("main" => 'Perl::Symdump' => {});
+$tn->mount("main" => 'Perl::Symdump' => {});
 
 my $app = $tn->to_app;
 

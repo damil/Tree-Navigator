@@ -1,47 +1,3 @@
-=pod
-
-TODO
-
-- check proper handling of SCRIPT_NAME
-- display node, show attrs & use IFRAME for content
-- option to toogle leaves in treeNav
-- export dir data as JSON/yaml
-- menu of actions on nodes
-
-- Node types: 
-    - HTML viewer, build tree from H1, h2, etc. nodes; href links are leaves
-    - Obj in memory
-    - Process tree
-    - LDAP
-    - POM
-    - Catalyst Actions
-    - WWW mechanize
-    - XML Schema
-
-- Shell : use Plack::Client
-
-- Operation:
-    - ls
-    - cat
-    - grep / ack
-    - search / find (from attributes)
-
-
-- fix utf8 bug in content
-
-- mount point should be an object
-
-- DMWeb
-   - nodes def_actions/def_*
-   - affichage procédure, regroupement des colonnes par YAML
-
-
-- apps
-   - doc avec MsWordHTML
-   - doc avec Latex
-
-=cut
-
 package Tree::Navigator;
 use Moose;
 use MooseX::NonMoose;
@@ -456,20 +412,55 @@ Tree::Navigator - Generic navigation in various kinds of trees
 
 =head1 SYNOPSIS
 
-=head2 Define some tree mount points
+Create a file F<treenav.psgi> like this :
 
-  TODO
+  # create a navigator, then mount various kinds of nodes as shown below
+  use Tree::Navigator;
+  my $tn = Tree::Navigator->new;
 
-=head2 Start the server
+  # example 1 : browse through the filesystem
+  $tn->mount(Files => Filesys 
+                   => {attributes => {label => 'My Web Files'},
+                       mount_point => {root  => '/path/to/files'}});
 
-  TODO
+  # example 2 : inspect tables and columns in a database
+  my $dbh = DBI->connect(...);
+  $tn->mount(MyDB => 'DBI' => {mount_point => {dbh => $dbh}});
 
-=head2 Navigate
+  # example 3 : browse through the Win32 registry
+  $tn->mount(HKCU => 'Win32::Registry' => {mount_point => {key => 'HKCU'}});
 
-  TODO
+  # example 4 : browse through Perl internals
+  $tn->mount(Ref => 'Perl::Ref' => {mount_point => {ref => $some_ref}});
+  $tn->mount(Stack => 'Perl::StackTrace' => {mount_point => {}});
+  $tn->mount(Symdump => 'Perl::Symdump' => {});
+
+  # create the application
+  my $app = $tn->to_app;
+
+Then run the app
+
+  plackup treenav.psgi
+
+or mount the app in Apache
+
+  <Location /treenav>
+    SetHandler perl-script
+    PerlResponseHandler Plack::Handler::Apache2
+    PerlSetVar psgi_app /path/to/treenav.psgi
+  </Location>
+
+and use your favorite web browser to navigate through your data.
 
 
 =head1 DESCRIPTION
+
+=head2 Disclaimer
+
+This distribution is still in an early stage, with incomplete
+documentation and tests, and an unstabilized API. Use for experiments,
+not yet for production code.
+
 
 =head2 Introduction
 
@@ -495,7 +486,13 @@ web clients or command-line clients (the present module).
 
 =item *
 
-a shell client
+a shell client [TODO]
+
+=item *
+
+an L<application|Tree::Navigator::App::PerlDebug>
+that uses the Tree Navigator to navigate into the
+memory of a running Perl program.
 
 =back
 
@@ -510,7 +507,7 @@ a shell client
 
 =head1 METHODS
 
-
+TODO
 
 
 =head1 DEPENDENCIES
@@ -578,29 +575,42 @@ by the Free Software Foundation; or the Artistic License.
 See http://dev.perl.org/licenses/ for more information.
 
 
-=cut
+=head1 TODO
+
+- check proper handling of SCRIPT_NAME
+- display node, show attrs & use IFRAME for content
+- option to toogle leaves in treeNav
+- export dir data as JSON/yaml
+- menu of actions on nodes
+
+- Node types: 
+    - HTML viewer, build tree from H1, h2, etc. nodes; href links are leaves
+    - Obj in memory
+    - Process tree
+    - LDAP
+    - POM
+    - Catalyst Actions
+    - WWW mechanize
+    - XML Schema
+    - Smb Client, FTP, FTPS, SVN, GIT
+
+- Shell : use Plack::Client
+
+- Operation:
+    - ls
+    - cat
+    - grep / ack
+    - search / find (from attributes)
+
+- fix utf8 bug in content
 
 
-
-Node 
-  - has url
-  - has short_name (for tree nav)
-  - bool displayable 
-  - display()
-  - subnodes (for tree nav)
-
-
+- apps
+   - doc avec MsWordHTML
+   - doc avec Latex
 
 
 API
-  app/                 => basic layout (frameset)
-  app/path/to/node     => right panel
-  app/path/to/node?source (PPW, )
-  app/_tn/             => tree TOC
-  app/_tn/path/to/node => subtree TOC
-
-
-API.v2
   app/_frameset              => basic layout (frameset)
   app/_tn/             => tree TOC
   app/_tn/path/to/node => subtree TOC
@@ -613,26 +623,9 @@ API.v2
      accept: binary
   app/path/to/node?html
 
-
      => right panel
   app/path/to/node?source (PPW, )
 
-
-
-
-Usage
-  - filesys
-  - smbclient
-  - ftp/ftps
-  - SVN
-  - Git
-  - LDAP ?
-  - DB ??
-      - tables => columns
-      - indexes
-      - constraints
-
- Q: Webdav ?
 
 
 Cli
@@ -647,12 +640,3 @@ Cli
 
 
 
-Example
-  Civ/PROCEDURE/02012C 123456/roles
-  Civ/PROCEDURE/02012C 123456/roles[3]/NOM_PRE_ROLE
-  Civ/PROCEDURE/02012C 123456/roles[3]/partie
-  Civ/PROCEDURE{02012C 123456}/roles[3]/partie
-  Civ/Procedure<=>roles/C_ETAT_PROC+C_ETAT_ROLE
-  Civ/Procedure<=>{CLE_PROC=CLE_PROC}roles/C_ETAT_PROC+C_ETAT_ROLE
-     Q: /roles : ls 
-     Q: /roles : 
