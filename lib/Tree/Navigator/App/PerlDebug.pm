@@ -12,6 +12,7 @@ use strict;
 use warnings;
 use Tree::Navigator;
 use Plack::Runner;
+use HTTP::Server::PSGI::Mortal;
 use Exporter qw/import/;
 
 our @EXPORT_OK = qw/debug/;
