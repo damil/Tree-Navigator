@@ -1,25 +1,11 @@
-=pod
-
-TODO
-
-
-=cut
-
 package Tree::Navigator::Node::DBI;
 use Moose;
 use namespace::autoclean;
 extends 'Tree::Navigator::Node';
 
-use Plack::MIME;
-use Plack::Util;
-use HTTP::Date;
 use DBI;
-#use DBIx::DataModel;
-#use DBIx::DataModel::Schema::Generator;
 
-
-use Params::Validate qw/validate SCALAR ARRAYREF/;
-use Module::Load;
+use Params::Validate qw/validate/;
 
 sub MOUNT {
   my ($class, $mount_args) = @_;

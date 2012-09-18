@@ -1,10 +1,3 @@
-=pod
-
-TODO
-
-
-=cut
-
 package Tree::Navigator::Node::Win32::Registry;
 use Moose;
 use namespace::autoclean;

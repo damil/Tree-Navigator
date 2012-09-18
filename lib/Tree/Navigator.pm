@@ -5,18 +5,13 @@ use namespace::autoclean;
 extends 'Plack::Component';
 
 use Alien::GvaScript;
-use Plack::Request;
 use Plack::MIME;
+use Plack::Request;
 use Plack::Util;
-use URI::Escape;
 use Scalar::Util qw/weaken/;
 use Tree::Navigator::Node;
 
-our $VERSION = '0.01';
-
-# will escape all control and hi-bit characters in URIs
-use constant URI_ESCAPE_CHARS => "\x00-\x1f\x7f-\xff"; 
-
+our $VERSION = '0.02';
 
 has root  => (
   is      => 'ro',
@@ -68,8 +63,6 @@ sub call { # request dispatcher (see L<Plack::Component>)
   my $node = $self->descendent($path) or die "no such node : $path";
   return $node->response($req);
 }
-
-
 
 
 

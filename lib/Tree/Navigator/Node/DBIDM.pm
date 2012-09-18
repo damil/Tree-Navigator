@@ -1,28 +1,13 @@
-=pod
-
-TODO
-
-
-=cut
-
 package Tree::Navigator::Node::DBIDM;
-use strict;
-use warnings;
-
-use Plack::MIME;
-use Plack::Util;
-use HTTP::Date;
-
 use Moose;
-use namespace::autoclean;
+
 use DBI;
 use DBIx::DataModel;
-#use DBIx::DataModel::Schema::Generator;
+use Params::Validate qw/validate/;
+use namespace::autoclean;
 
 extends 'Tree::Navigator::Node';
 
-use Params::Validate qw/validate SCALAR ARRAYREF/;
-use Module::Load;
 
 sub MOUNT {
   my ($class, $mount_args) = @_;
@@ -42,7 +27,7 @@ sub _children {
 }
 
 
-sub _xchild {
+sub _child {
   my ($self, $child_path) = @_;
   my $class = ref $self;
   my $subclass = $class . "::" . $child_path;
@@ -85,15 +70,7 @@ use warnings;
 
 
 
-1; # End of Tree::Navigator::Node::Filesys
-
-
-
-
-
-
-
-
+1; # End of Tree::Navigator::Node::DBIDM
 
 
 __END__
@@ -101,7 +78,7 @@ __END__
 
 =head1 NAME
 
-Tree::Navigator::Node::Filesys - The great new Tree::Navigator::Node::Filesys!
+Tree::Navigator::Node::DBIDM - 
 
 =cut
 

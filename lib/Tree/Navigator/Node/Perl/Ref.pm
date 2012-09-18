@@ -1,9 +1,3 @@
-=pod
-
-TODO
-
-=cut
-
 package Tree::Navigator::Node::Perl::Ref;
 use 5.010;
 use Moose;

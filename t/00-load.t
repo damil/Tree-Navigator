@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 12;
+use Test::More tests => 11;
 
 BEGIN {
   use_ok( 'Tree::Navigator' ) || print "Bail out!\n";
@@ -12,7 +12,7 @@ BEGIN {
   use_ok('Tree::Navigator::Node::Perl::Ref');
   use_ok('Tree::Navigator::Node::Perl::StackTrace');
   use_ok('Tree::Navigator::Node::Perl::Symdump');
-  use_ok('Tree::Navigator::Node::Win32::Registry');
+#  use_ok('Tree::Navigator::Node::Win32::Registry');
   use_ok('Tree::Navigator::View');
   use_ok('Tree::Navigator::View::TT2');
 }
