@@ -13,6 +13,7 @@ requires 'Devel::StackTrace::WithLexicals';
 requires 'Devel::StackTrace::AsHTML';
 requires 'Devel::Symdump';
 requires 'HTTP::Date';
+requires 'HTTP::Server::PSGI::Mortal';
 requires 'List::MoreUtils';
 requires 'List::Util';
 requires 'Moose';
