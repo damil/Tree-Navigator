@@ -53,10 +53,10 @@ sub call { # request dispatcher (see L<Plack::Component>)
   !$path               and return $self->frameset($req);
   $path =~ s[^_toc/][] and return $self->toc($path, $req);
 
-  # URL to stop this server (needed by L<Tree::Navigator::PerlDebug>)
+  # URL to stop this server (needed by L<Tree::Navigator::App::PerlDebug>)
   $path =~ /^_KILL/ and $self->can_be_killed 
-    and return [200, ['Content-type' => 'text/html',
-                      TIME_TO_DIE    => 1], # see L<HTTP::Server::PSGI::Mortal>
+    and $env->{'psgix.harakiri.commit'} = 1 # see L<HTTP::Server::PSGI> v1.004
+    and return [200, ['Content-type' => 'text/html'],
                      ["server killed upon user request"]];
 
   # otherwise, other URLs

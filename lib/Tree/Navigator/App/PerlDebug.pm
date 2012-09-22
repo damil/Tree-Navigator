@@ -11,8 +11,8 @@ package Tree::Navigator::App::PerlDebug;
 use strict;
 use warnings;
 use Tree::Navigator;
+use Plack 1.0004; # need 'harakiri mode' in HTTP::Server::PSGI
 use Plack::Runner;
-use HTTP::Server::PSGI::Mortal;
 use Exporter qw/import/;
 
 our @EXPORT_OK = qw/debug/;
@@ -35,15 +35,14 @@ sub debug {
     print STDERR "DEBUG STARTED; USE YOUR WEB BROWSER TO INSPECT $debugged\n";
 
     # mount Stack navigator
-    $tn->mount(main => 'Perl::Stack' => {mount_point => {}});
+    $tn->mount(stack => 'Perl::StackTrace' => {mount_point => {}});
 
     # mount Class navigator
-    $tn->mount(main => 'Perl::Symdump' => {mount_point => {}});
+    $tn->mount(symdump => 'Perl::Symdump' => {mount_point => {}});
 
     # run the Web server
     my $runner = Plack::Runner->new;
-    $runner->parse_options("--server", 'HTTP::Server::PSGI::Mortal',
-                           @$runner_options);
+    $runner->parse_options(@$runner_options);
     $runner->run($tn->to_app);
 
     # if reaching here, server has been killed by user
