@@ -100,14 +100,13 @@ sub _content {
 
 
 
-sub response {
+override 'response' => sub {
   my $self = shift;
   my $file = $self->file_path;
 
-  return -d $file ? $self->SUPER::response
-                  : $self->file_response;
-}
-  
+  return -d $file ? super() : $self->file_response;
+
+};
 
 
 # code mostly borrowed from Plack::App::File
