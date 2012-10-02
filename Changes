@@ -1,5 +1,9 @@
 Revision history for Tree-Navigator
 
+0.05 02.10.2012
+  - replacing HTTP::Server::PSGI::Mortal by plain HTTP::Server::PSGI, 
+    now that it has harakiri mode
+
 0.04 19.09.2012
   - Yet more dependencies
 

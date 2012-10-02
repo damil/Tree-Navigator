@@ -11,7 +11,7 @@ use Plack::Util;
 use Scalar::Util qw/weaken/;
 use Tree::Navigator::Node;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 has root  => (
   is      => 'ro',
@@ -245,6 +245,7 @@ my $default_tmpl = q{
     }
     .attrs TH     { text-align: right; padding-right: 1ex}
     .attrs TH, TD { font-size: 80%; }
+    .highlight    { background: lightgreen }
   </style>
   [% SET base = request.script_name %]
   <link href="[% base %]/_gva/GvaScript.css" rel="stylesheet" type="text/css">
@@ -297,7 +298,9 @@ my $default_tmpl = q{
           <div class="TN_node">
             <h2 class="TN_label">Content</h2>
             <div class="TN_content">
-              [%~ data.content_text ~%]
+              <pre>
+                [%- data.content_text -%]
+              </pre>
             </div>
           </div>
         [% END; # IF data.content %]

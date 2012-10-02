@@ -1,9 +1,3 @@
-=pod
-
-TODO
-
-=cut
-
 package Tree::Navigator::Node::Perl::StackTrace;
 use Moose;
 extends 'Tree::Navigator::Node';
@@ -25,7 +19,7 @@ sub _stack {
 
 sub _children {
   my $self = shift;
-  return [0 .. $self->_stack->frame_count-1];
+  return [reverse(0 .. $self->_stack->frame_count-1)];
 }
 
 sub _child {
@@ -76,6 +70,7 @@ sub BUILD {
 sub _frame {
   my $self = shift;
   my $index = $self->last_path;
+
   return $self->mount_point->{stack_trace}->frame($index);
 }
 
@@ -95,6 +90,25 @@ sub _attributes {
   return \%attrs;
 }
 
+
+sub _content {
+  my $self = shift;
+  my $frame = $self->_frame;
+  my $filename = $frame->filename;
+  open(my $fh, $filename); # THINK: or die ? or ignore ? 
+  return $fh;
+}
+
+
+sub content_text {
+  my $self = shift;
+  my $frame = $self->_frame;
+  my $current_line = $frame->line;
+  my $fh = $self->content;
+  my @lines = <$fh>;
+  $lines[$current_line-1] =~ s[(.*)][<span class='highlight'>$1</span>];
+  return join "", @lines;
+}
 
 
 

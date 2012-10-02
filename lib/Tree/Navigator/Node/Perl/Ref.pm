@@ -29,6 +29,9 @@ sub _find_ref {
     for (reftype $ref) {
       when ('ARRAY') {$ref = $ref->[$fragment]}
       when ('HASH')  {$ref = $ref->{$fragment}}
+#      when ($_ eq 'SCALAR' && $fragment eq '$')
+      when (['SCALAR', 'REF'])
+                     {$ref = $$ref}
       default        {die "no such path in data : '$path'"}
     }
   }
@@ -41,7 +44,7 @@ sub _find_ref {
 sub _ref_is_child {
   my $ref = shift;
   my $reftype = reftype $ref || ''; 
-  return $reftype =~ /^(?:HASH|ARRAY)$/;
+  return $reftype =~ /^(?:HASH|ARRAY|SCALAR|REF)$/;
 }
 
 
@@ -91,7 +94,12 @@ sub _find_children_and_attrs {
       }
       @children = sort {lc($a) cmp lc($b)} @children;
     }
+    when (['SCALAR', 'REF'])  {
+      @children = '$';
+    }
   }
+  my $blessed = blessed $ref;
+  $attrs{isa} //= $blessed if $blessed;
   $self->{children}   = \@children;
   $self->{attributes} = \%attrs;
 }
@@ -101,12 +109,15 @@ sub _child {
   my ($self, $child_path) = @_;
   my $class = ref $self;
 
+  $DB::single = 1;
+
   # check if child exists
   my $ref = $self->_find_ref;
   my $child_ok;
   for (reftype $ref) {
-    when ('ARRAY') { $child_ok = exists $ref->[$child_path] }
-    when ('HASH')  { $child_ok = exists $ref->{$child_path} }
+    when ('ARRAY')           { $child_ok = exists $ref->[$child_path] }
+    when ('HASH')            { $child_ok = exists $ref->{$child_path} }
+    when (['SCALAR', 'REF']) { $child_ok = $child_path eq '$'         }
   }
   $child_ok or die "no child '$child_path' in " . $self->full_path;
 

@@ -85,13 +85,13 @@ has 'path' => (    # cumulated path from the mount point
   isa     => 'Str',
   default => '',
  );
-has 'children' => (
-  is         => 'ro',
-  isa        => 'ArrayRef[Str]',
-  lazy       => 1,
-  builder    => '_children_and_mounted',
-  auto_deref => 1,
- );
+# has 'children' => (
+#   is         => 'ro',
+#   isa        => 'ArrayRef[Str]',
+#   lazy       => 1,
+#   builder    => '_children_and_mounted',
+#   auto_deref => 1,
+#  );
 has 'attributes' => (
   is      => 'ro',
   isa     => 'HashRef',
@@ -197,13 +197,18 @@ sub _child {
 }
 
 
-sub _children_and_mounted {
+# sub _children_and_mounted {
+#   my $self = shift;
+#   my $mounted  = $self->mounted;
+#   my $children = $self->_children;
+#   return [ @$mounted, @$children ];
+# }
+sub children {
   my $self = shift;
   my $mounted  = $self->mounted;
   my $children = $self->_children;
-  return [ @$mounted, @$children ];
+  return @$mounted, @$children;
 }
-
 
 
 sub content {
@@ -360,20 +365,12 @@ An B<attribute value> is either C<undef> or a Perl string.
 
 =item *
 
-An B<attribute name> is non-empty Perl string.
+An B<attribute name> is a non-empty Perl string.
 
 =item *
 
 For a given node, the list of B<published attributes> is an ordered
 list of distinct attribute names (possibly empty).
-
-=item *
-
-The B<attribute> I<a>
-For a given node, the list of B<published attributes> is an ordered
-list of distinct attribute names (possibly empty).
-
-
 
 
 =item *
