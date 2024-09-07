@@ -1,8 +1,13 @@
 package Tree::Navigator;
+use utf8;
 use Moose;
 use MooseX::NonMoose;
 use namespace::autoclean;
 extends 'Plack::Component';
+
+
+# TODO : check Path::Resolver
+
 
 use Alien::GvaScript;
 use Plack::MIME;
@@ -11,7 +16,7 @@ use Plack::Util;
 use Scalar::Util qw/weaken/;
 use Tree::Navigator::Node;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 has root  => (
   is      => 'ro',
@@ -401,6 +406,8 @@ __PACKAGE__->meta->make_immutable;
 1; # End of Tree::Navigator
 
 __END__
+
+=encoding utf8
 
 =head1 NAME
 

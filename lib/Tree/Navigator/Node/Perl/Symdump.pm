@@ -1,3 +1,5 @@
+=encoding utf8
+
 =pod
 
 TODO
@@ -7,6 +9,7 @@ TODO
 =cut
 
 package Tree::Navigator::Node::Perl::Symdump;
+use utf8;
 use Moose;
 extends 'Tree::Navigator::Node';
 

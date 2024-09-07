@@ -1,3 +1,5 @@
+=encoding utf8
+
 =pod
 
 TODO
@@ -7,6 +9,7 @@ TODO
 =cut
 
 package Tree::Navigator::Node::Filesys;
+use utf8;
 use Moose;
 extends 'Tree::Navigator::Node';
 
@@ -141,7 +144,7 @@ __END__
 
 =head1 NAME
 
-Tree::Navigator::Node::Filesys - The great new Tree::Navigator::Node::Filesys!
+Tree::Navigator::Node::Filesys - navigating in a filesystem
 
 =cut
 

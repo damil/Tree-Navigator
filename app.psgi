@@ -17,10 +17,10 @@ my $tn = Tree::Navigator->new;
 
 $tn->mount(HKCU => 'Win32::Registry' => {mount_point => {key => 'HKCU'}});
 
-use DBI;
-my $dbfile = "D:/devarea/sqlite/jetons.sqlite";
-my $dbh = DBI->connect("dbi:SQLite:dbname=$dbfile","","");
-$tn->mount(Jetons  => 'DBI' => {mount_point => {dbh => $dbh}});
+# use DBI;
+# my $dbfile = "D:/devarea/sqlite/jetons.sqlite";
+# my $dbh = DBI->connect("dbi:SQLite:dbname=$dbfile","","");
+# $tn->mount(Jetons  => 'DBI' => {mount_point => {dbh => $dbh}});
 
 $tn->mount(TN  => 'Perl::Ref' => {mount_point => {ref => $tn}});
 
@@ -31,16 +31,13 @@ $tn->mount(Foo  => 'Perl::Ref' => {mount_point => {ref => {
 
 $tn->mount(Stack  => 'Perl::StackTrace' => {mount_point => {}});
 
-# $tn->mount(temp  => '+Tree::Navigator::Node::Filesys'
-#                  => {attributes => {
-#                        label => 'Fichiers temporaires',
-#                        title => 'Big mess of tmp files',
-#                        },
-#                      mount_point => {root => 'D:/Temp'},
-#                     });
-$tn->mount(dami => Filesys 
-                => {attributes => {label => 'Privé'},
-                    mount_point => {root  => 'D:/dami'}});
+$tn->mount(temp  => '+Tree::Navigator::Node::Filesys'
+                 => {attributes => {
+                       label => 'Fichiers temporaires',
+                       title => 'Big mess of tmp files',
+                       },
+                     mount_point => {root => 'D:/Temp'},
+                    });
 
 $tn->mount("main" => 'Perl::Symdump' => {});
 

@@ -1,3 +1,5 @@
+=encoding utf8
+
 =pod
 
 TODO
@@ -60,6 +62,7 @@ Decide
 
 
 package Tree::Navigator::Node;
+use utf8;
 use strict;
 use warnings;
 
