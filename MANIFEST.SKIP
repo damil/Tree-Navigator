@@ -7,3 +7,5 @@ cfi.psgi
 blib
 .tar.gz
 -0.
+MYMETA.yml$
+MYMETA\.json$

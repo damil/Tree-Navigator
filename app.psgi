@@ -17,10 +17,10 @@ my $tn = Tree::Navigator->new;
 
 $tn->mount(HKCU => 'Win32::Registry' => {mount_point => {key => 'HKCU'}});
 
-# use DBI;
-# my $dbfile = "D:/devarea/sqlite/jetons.sqlite";
-# my $dbh = DBI->connect("dbi:SQLite:dbname=$dbfile","","");
-# $tn->mount(Jetons  => 'DBI' => {mount_point => {dbh => $dbh}});
+use DBI;
+my $dbfile = "d:/Git/DAMI/App-AutoCRUD/examples/Sakila/sakila.sqlite";
+my $dbh = DBI->connect("dbi:SQLite:dbname=$dbfile","","");
+$tn->mount(Sakila  => 'DBI' => {mount_point => {dbh => $dbh}});
 
 $tn->mount(TN  => 'Perl::Ref' => {mount_point => {ref => $tn}});
 

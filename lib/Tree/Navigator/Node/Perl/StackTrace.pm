@@ -125,7 +125,7 @@ __END__
 
 =head1 NAME
 
-Tree::Navigator::Node::Perl::StackTrace
+Tree::Navigator::Node::Perl::StackTrace - navigating in a perl stacktrace
 
 =cut
 

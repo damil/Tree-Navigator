@@ -142,7 +142,7 @@ __END__
 
 =head1 NAME
 
-Tree::Navigator::Node::Perl::Ref - 
+Tree::Navigator::Node::Perl::Ref - navigating in a perl datastructure
 
 =cut
 

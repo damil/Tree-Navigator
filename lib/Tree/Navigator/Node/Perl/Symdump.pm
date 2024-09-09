@@ -1,13 +1,3 @@
-=encoding utf8
-
-=pod
-
-TODO
-  - ISA info
-  - ad hoc presentation template
-
-=cut
-
 package Tree::Navigator::Node::Perl::Symdump;
 use utf8;
 use Moose;
@@ -128,11 +118,11 @@ __DATA__
 
 __END__
 
+=encoding utf8
 
 =head1 NAME
 
-Tree::Navigator::Node::Perl::Symdump
+Tree::Navigator::Node::Perl::Symdump - navigating in a perl symbol table
 
-=cut
 
 
